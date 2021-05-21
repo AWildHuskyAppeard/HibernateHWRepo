@@ -20,16 +20,7 @@
         <property name="hibernate.format_sql">true</property>
         
         	<!-- 設定映射關係 -->
-        <mapping resource="tw/geniuswang/hibernateproject/model/HouseBean.hbm.xml"></mapping>
-        <mapping class="tw.geniuswang.hibernateproject.model.Department"></mapping>
-        
-        <mapping class="tw.geniuswang.hibernateproject.model.Book"></mapping>
-        <mapping class="tw.geniuswang.hibernateproject.model.BookDetail"></mapping>
-        
-        <mapping class="tw.geniuswang.hibernateproject.model.Stock"></mapping>
-        <mapping class="tw.geniuswang.hibernateproject.model.StockTransaction"></mapping>
-        
-        <mapping class="tw.geniuswang.hibernateproject.model.Users"></mapping>
+        <mapping class="model.Users"></mapping>
         <!-- ****************************************************** -->
         
     </session-factory>
