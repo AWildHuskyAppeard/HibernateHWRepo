@@ -1,16 +1,13 @@
 package tw.group5.subarashiiproject.action.tajen;
+// PDF-1 TaJen
 
 import java.util.Scanner;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 
-import tw.group5.subarashiiproject.model.tajen.UsersDAO;
 import tw.group5.subarashiiproject.model.tajen.UsersService;
 import tw.group5.subarashiiproject.util.HibernateUtil;
-
-// PDF-1 TaJen
 public class UsersAction {
 	public static void main(String[] args) {
 		
