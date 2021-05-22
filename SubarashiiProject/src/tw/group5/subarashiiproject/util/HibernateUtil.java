@@ -1,4 +1,4 @@
-package util;
+package tw.group5.subarashiiproject.util;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
