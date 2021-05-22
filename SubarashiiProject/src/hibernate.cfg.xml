@@ -14,13 +14,11 @@
         <!-- *********************以下是自己加的********************* -->
         <property name="hibernate.current_session_context_class">thread</property>
         
-        		<!-- 1. 我要在console上看到SQL語句 -->
         <property name="hibernate.show_sql">true</property>
-        		<!-- 2. 把SQL排版格式化好看一點 -->
         <property name="hibernate.format_sql">true</property>
         
-        	<!-- 設定映射關係 -->
-        <mapping class="model.Users"></mapping>
+        		<!-- PDF題目相關註冊 -->
+        <mapping class="tw.group5.subarashiiproject.model.tajen.Users"/>
         <!-- ****************************************************** -->
         
     </session-factory>
