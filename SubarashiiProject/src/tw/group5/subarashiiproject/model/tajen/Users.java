@@ -6,7 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-@Entity
+//@Entity(name = "Users") > 預設；避免和各位衝到所以改成下述。另外HQL的部分也要改。
+@Entity(name = "Usersnin")
 @Table(name = "users")
 public class Users {
 	// attributes
