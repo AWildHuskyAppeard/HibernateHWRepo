@@ -6,8 +6,8 @@
 	<!-- 可能會有異動的行數：9、10、11  -->
     <session-factory>
         <property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
-        <property name="hibernate.connection.password">Passw0rd</property>
-        <property name="hibernate.connection.url">jdbc:sqlserver://localhost:1433;databasename=MyHBN</property>
+        <property name="hibernate.connection.password">P@ssw0rd</property>
+        <property name="hibernate.connection.url">jdbc:sqlserver://localhost:1433;databaseName=MyHBN</property>
         <property name="hibernate.connection.username">user01</property>
         <property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
         
@@ -19,6 +19,7 @@
         
         		<!-- PDF題目相關註冊 -->
         <mapping class="tw.group5.subarashiiproject.model.tajen.Users"/>
+        <mapping class="tw.group5.subarashiiproject.model.josh.Users"/>
         <!-- ****************************************************** -->
         
     </session-factory>
