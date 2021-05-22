@@ -19,7 +19,7 @@
         
         		<!-- PDF題目相關註冊 -->
         <mapping class="tw.group5.subarashiiproject.model.tajen.Users"/>
-        <mapping class="tw.group5.subarashiiproject.model.josh.Users"/>
+        <mapping class="tw.group5.subarashiiproject.model.josh.Users1"/>
         <!-- ****************************************************** -->
         
     </session-factory>

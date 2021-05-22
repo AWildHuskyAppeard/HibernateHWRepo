@@ -12,13 +12,13 @@ public class UsersDao implements IUsersDao{
 	}
 	@Override
 	public boolean checkLoginAccess(String uname, String upsw) {
-		String hql = "from Users Where username=:uname and userpsw=:upsw";
-		Query<Users> query = session.createQuery(hql, Users.class);
+		String hql = "from Users1 Where username=:uname and userpsw=:upsw";
+		Query<Users1> query = session.createQuery(hql, Users1.class);
 		
 		query.setParameter("uname", uname);
 		query.setParameter("upsw", upsw);
 		
-		Users userResult = query.uniqueResult();
+		Users1 userResult = query.uniqueResult();
 		
 		return (userResult!=null)? true:false ;
 	}
