@@ -16,7 +16,9 @@ public class UsersDAO implements IUsersDAO {
 	
 	@Override
 	public boolean checkLoginAccess(String uname, String upsw) {
-		String hql = "FROM Users WHERE username = :uname AND userpsw = :upsw";
+		// 避免Entity和其他人打架衝到所以改掉
+//		String hql = "FROM Users WHERE username = :uname AND userpsw = :upsw"; 
+		String hql = "FROM Usersnin WHERE username = :uname AND userpsw = :upsw";
 		Query<Users> query = session.createQuery(hql, Users.class);
 		
 		query.setParameter("uname", uname);
