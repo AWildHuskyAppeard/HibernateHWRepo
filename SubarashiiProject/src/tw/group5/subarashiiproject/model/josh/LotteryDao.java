@@ -27,7 +27,7 @@ public class LotteryDao implements ILotteryDao {
 	@Override
 	//selectAll
 	public List<Lottery1> selectAll() {
-		Query<Lottery1> query = session.createNamedQuery("from Lottery1", Lottery1.class);
+		Query<Lottery1> query = session.createQuery("from Lottery1", Lottery1.class);
 		return query.list();
 	}
 	

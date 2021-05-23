@@ -22,8 +22,8 @@ public class ActionEx1 {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
+		String hints = "\n輸入 playlottery 來產生一組亂數並存入資料庫，\n輸入 read 來讀取單筆統計資料，\n輸入 readall 來查看前六筆統計資料，\n輸入 break 來結束程式";
 		boolean loginResult = false;
-//		UsersActionEx1 action = new UsersActionEx1();
 		
 		SessionFactory factory = HibernateUtil.getSessionFactory();
 		Session session = factory.getCurrentSession();
@@ -47,21 +47,55 @@ public class ActionEx1 {
 			}
 			
 			
-			Set<int[]> returnStuffs = playLottery();
-//			System.out.println("============back to main============");
-//			System.out.println("size: "+returnStuffs.size());
-			Iterator<int[]> iter = returnStuffs.iterator();
-			int[] num = null; //號碼
-			int[] count = null; //出現次數
-			while(iter.hasNext()) {
-				num = iter.next();
-				count = iter.next();
+			if(loginResult == true) { //登入成功: 做事
+				boolean station = false;
+				do {
+					System.out.println(hints);
+					Scanner scn = new Scanner(System.in);
+					switch (scn.nextLine()) {
+					case "playlottery":
+						//執行亂數生成 & 統計
+						Set<int[]> returnStuffs = playLottery();
+//						System.out.println("============back to main============");
+//						System.out.println("size: "+returnStuffs.size());
+						Iterator<int[]> iter = returnStuffs.iterator();
+						int[] num = null; //號碼
+						int[] count = null; //出現次數
+						while(iter.hasNext()) {
+							num = iter.next();
+							count = iter.next();
+						}
+						
+						//test
+						/*for(int i=0 ; i<6 ; i++) { //print出現前六多的號碼 & 出現次數
+							System.out.println(num[i] + ":" + count[i] + "次");
+						}*/
+						
+						insertLottery(num, count, session);
+						break;
+					case "read":
+						System.out.println("請輸入要查詢的id (1~6)");
+						int lotteryid = scn.nextInt();
+						processReadUnique(lotteryid, session);
+						//讀資料
+						break;
+					case "readall":
+						processReadAll(session);
+						break;
+					case "break":
+						station = true;
+						break;
+					default:
+						scn.nextLine();
+						System.out.println(hints);
+						break;
+					}
+					
+				} while (! station);
+					System.out.println("程式結束!");
+				
 			}
-//			for(int i=0 ; i<6 ; i++) { //print出現前六多的號碼 & 出現次數
-//				System.out.println(num[i] + ":" + count[i] + "次");
-//			}
-			insertLottery(num, count, session);
-			
+
 			
 			session.getTransaction().commit();
 		} catch (Exception e) {
@@ -71,8 +105,6 @@ public class ActionEx1 {
 			
 			HibernateUtil.closeSessionFactory();
 		}
-		
-
 	}
 	
 	
@@ -85,8 +117,31 @@ public class ActionEx1 {
 			lottery1.setTotalcnt(count[i]);
 			lotteryService.insert(lottery1);
 		}
+			System.out.println("資料匯入成功!");
 	}
 
+	
+	
+	public static void processReadUnique(int lotteryid, Session session) {
+		LotteryService lotteryService = new LotteryService(session);
+		Lottery1 uniqueResult = lotteryService.select(lotteryid);
+		if(uniqueResult != null) {
+			System.out.println("號碼: " + uniqueResult.getNum() + "出現次數: " + uniqueResult.getTotalcnt());
+		}else {
+			System.out.println("沒有這筆資料，請輸入號碼 1~6 來查看");
+		}
+	}
+	
+	
+	public static void processReadAll(Session session) {
+		LotteryService lotteryService = new LotteryService(session);
+		java.util.List<Lottery1> selectAllResult = lotteryService.selectAll();
+		Iterator<Lottery1> it = selectAllResult.iterator();
+		while(it.hasNext()) {
+			Lottery1 lotterys = (Lottery1)it.next();
+			System.out.println(lotterys.getNum() + ": 出現" + lotterys.getTotalcnt() + " 次");
+		}
+	}
 
 
 	public static boolean processAction(String uname, String upsw, Session session) {
@@ -138,15 +193,5 @@ public class ActionEx1 {
 	}
 
 	
-	
-	
 
 }
-
-
-
-
-
-
-
-
