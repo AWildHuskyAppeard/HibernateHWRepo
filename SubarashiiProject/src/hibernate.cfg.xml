@@ -20,6 +20,7 @@
         		<!-- PDF題目相關註冊 -->
         <mapping class="tw.group5.subarashiiproject.model.tajen.Users"/>
         <mapping class="tw.group5.subarashiiproject.model.josh.Users1"/>
+        <mapping class="tw.group5.subarashiiproject.model.josh.Lottery1"/>
         <!-- ****************************************************** -->
         
     </session-factory>

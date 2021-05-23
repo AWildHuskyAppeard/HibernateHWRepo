@@ -12,10 +12,13 @@ import java.util.Set;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import tw.group5.subarashiiproject.model.josh.Lottery1;
+import tw.group5.subarashiiproject.model.josh.LotteryDao;
+import tw.group5.subarashiiproject.model.josh.LotteryService;
 import tw.group5.subarashiiproject.model.josh.UsersService;
 import tw.group5.subarashiiproject.util.HibernateUtil;
 
-public class UsersActionEx1 {
+public class ActionEx1 {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
@@ -45,8 +48,8 @@ public class UsersActionEx1 {
 			
 			
 			Set<int[]> returnStuffs = playLottery();
-			System.out.println("============back to main============");
-			System.out.println("size: "+returnStuffs.size());
+//			System.out.println("============back to main============");
+//			System.out.println("size: "+returnStuffs.size());
 			Iterator<int[]> iter = returnStuffs.iterator();
 			int[] num = null; //號碼
 			int[] count = null; //出現次數
@@ -54,9 +57,11 @@ public class UsersActionEx1 {
 				num = iter.next();
 				count = iter.next();
 			}
-			for(int i=0 ; i<6 ; i++) { //print出現前六多的號碼 & 出現次數
-				System.out.println(num[i] + ":" + count[i] + "次");
-			}
+//			for(int i=0 ; i<6 ; i++) { //print出現前六多的號碼 & 出現次數
+//				System.out.println(num[i] + ":" + count[i] + "次");
+//			}
+			insertLottery(num, count, session);
+			
 			
 			session.getTransaction().commit();
 		} catch (Exception e) {
@@ -71,6 +76,18 @@ public class UsersActionEx1 {
 	}
 	
 	
+
+	private static void insertLottery(int[] num, int[] count, Session session) {
+		for (int i=0 ; i<6 ; i++) {
+			LotteryService lotteryService = new LotteryService(session);
+			Lottery1 lottery1 = new Lottery1();
+			lottery1.setNum(num[i]);
+			lottery1.setTotalcnt(count[i]);
+			lotteryService.insert(lottery1);
+		}
+	}
+
+
 
 	public static boolean processAction(String uname, String upsw, Session session) {
 
