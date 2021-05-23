@@ -3,7 +3,7 @@ Go
 
 drop table if exists Lottery;
 Create Table Lottery (
-  id int primary key identity,
+  id int primary key identity, /*即identity(1, 1)*/
 c01 int default 0,
 c02 int default 0,
 c03 int default 0,
