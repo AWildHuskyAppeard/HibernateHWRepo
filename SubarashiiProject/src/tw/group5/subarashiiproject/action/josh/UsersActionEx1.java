@@ -1,6 +1,13 @@
 package tw.group5.subarashiiproject.action.josh;
 
+import java.awt.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,21 +18,9 @@ import tw.group5.subarashiiproject.util.HibernateUtil;
 public class UsersActionEx1 {
 
 	public static void main(String[] args) {
-		UsersActionEx1 action = new UsersActionEx1();
-		boolean loginResult = action.processAction();
-		action.switchCase();
-
-	}
-
-	public boolean processAction() {
-		
-		System.out.println("請輸入帳號: ");
-		Scanner scanner = new Scanner(System.in);
-		String uname = scanner.nextLine();
-		System.out.println("請輸入密碼: ");
-		String upsw = scanner.nextLine();
-		
-		boolean validity = false;
+		Scanner sc = new Scanner(System.in);
+		boolean loginResult = false;
+//		UsersActionEx1 action = new UsersActionEx1();
 		
 		SessionFactory factory = HibernateUtil.getSessionFactory();
 		Session session = factory.getCurrentSession();
@@ -33,33 +28,70 @@ public class UsersActionEx1 {
 		try {
 			session.beginTransaction();
 			
-			UsersService usersService = new UsersService(session);
-			validity = usersService.checkLoginAccess(uname, upsw);
-			System.out.println((validity)? "Hello, " + uname+"!" : "登入失敗, 請再試一次!");
+			/*while (true) {
+				if (args.length == 0) {
+					System.out.println("請輸入帳號: ");
+					String uname = sc.nextLine();
+					System.out.println("請輸入密碼: ");
+					String upsw = sc.nextLine();
+					loginResult = processAction(uname, upsw, session);
+					if (loginResult) {
+						break;
+					}
+				}else {
+					System.out.println("請輸入正確的帳號密碼!");
+				}
+			}*/
+			
+			
+			Set<int[]> returnStuffs = playLottery();
+			System.out.println("============back to main============");
+			System.out.println("size: "+returnStuffs.size());
+			Iterator<int[]> iter = returnStuffs.iterator();
+			int[] num = null; //號碼
+			int[] count = null; //出現次數
+			while(iter.hasNext()) {
+				num = iter.next();
+				count = iter.next();
+			}
+			for(int i=0 ; i<6 ; i++) { //print出現前六多的號碼 & 出現次數
+				System.out.println(num[i] + ":" + count[i] + "次");
+			}
 			
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			session.getTransaction().rollback();
 			e.printStackTrace();
-		} finally {
+		}finally {
 			
 			HibernateUtil.closeSessionFactory();
 		}
 		
+
+	}
+	
+	
+
+	public static boolean processAction(String uname, String upsw, Session session) {
+
+		boolean validity = false;
+		
+			UsersService usersService = new UsersService(session);
+			validity = usersService.checkLoginAccess(uname, upsw);
+			System.out.println((validity)? "Hello, " + uname+"!" : "登入失敗, 請再試一次!");
+			
 		return validity;
 	}
 	
-	int showCount[] = new int[42]; //出現次數
-	int num[] = new int[42];
 	
-	public void count() {
+	private static Set<int[]> playLottery() {
+		LinkedHashSet returnStuffs = new LinkedHashSet();
+		int showCount[] = new int[42]; //出現次數
+		int num[] = new int[42];
 		for (int i=1 ; i<100000 ; i++) {
 			int randomNumer = (int)(Math.random()*42 +1); //randomNum接收亂數,把float轉成int
 			showCount[randomNumer-1]++;
 		}
-	}
-	
-	public void sortarray() { //排序出現次數(大到小)
 		
 		for(int i=0 ; i<num.length ; i++) {
 			num[i]=i+1;
@@ -78,36 +110,18 @@ public class UsersActionEx1 {
 					num[i+1] = numOrder;
 					count++;
 				}
+				returnStuffs.add(num);
+				returnStuffs.add(showCount);
 			}
 			if(count == 0) {
 				break;
 			}
 		}
-		
-		for(int i=0 ; i<=6 ; i++) {
-			System.out.println(num[i] + ":\t" + showCount[i] + "次");
-		}
+		return returnStuffs;
 	}
+
 	
-	public void switchCase() {
-		Scanner sc = new Scanner(System.in);
-		String input1 = sc.nextLine();
-		switch (input1) {
-		case "lottery":
-			System.out.println("Lottery");
-			UsersActionEx1 action1 = new UsersActionEx1();
-			action1.count();
-			action1.sortarray();
-			break;
-		case "test":
-			System.out.println("test!");
-			break;
-		
-		default:
-			break;
-		}
-		System.out.println("程式結束");
-	}
+	
 	
 
 }
