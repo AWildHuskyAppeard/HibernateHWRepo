@@ -28,7 +28,7 @@ public class UsersActionEx1 {
 		try {
 			session.beginTransaction();
 			
-			/*while (true) {
+			while (true) {
 				if (args.length == 0) {
 					System.out.println("請輸入帳號: ");
 					String uname = sc.nextLine();
@@ -41,7 +41,7 @@ public class UsersActionEx1 {
 				}else {
 					System.out.println("請輸入正確的帳號密碼!");
 				}
-			}*/
+			}
 			
 			
 			Set<int[]> returnStuffs = playLottery();
@@ -85,7 +85,7 @@ public class UsersActionEx1 {
 	
 	
 	private static Set<int[]> playLottery() {
-		LinkedHashSet returnStuffs = new LinkedHashSet();
+		LinkedHashSet<int[]> returnStuffs = new LinkedHashSet<>();
 		int showCount[] = new int[42]; //出現次數
 		int num[] = new int[42];
 		for (int i=1 ; i<100000 ; i++) {
