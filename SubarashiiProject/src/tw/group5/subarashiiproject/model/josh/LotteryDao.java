@@ -18,7 +18,7 @@ public class LotteryDao implements ILotteryDao {
 		Lottery1 resultBean = session.get(Lottery1.class, lottery.getLotteryid());
 		
 		if(resultBean == null) {
-			session.save(lottery);
+			session.saveOrUpdate(lottery);
 			return lottery;
 		}
 		return null; //沒新增(已有資料)
