@@ -1,18 +1,19 @@
 package tw.group5.subarashiiproject.model.tajen.part2;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.hibernate.Session;
+import org.hibernate.query.Query;
+
+import tw.group5.subarashiiproject.util.HibernateUtil;
 
 public class CartIndex {
 	
 	public static ArrayList<ProductBean> cart = new ArrayList<ProductBean>();
 	private final String format1 = "%10s | %20s | %20s | %20s | %20s | %20s ";
 	private final String format2 = "%10s | %20s | %20s | %20d | %20s | %20s ";
-	private Session session;
+	private static Session session;
 	private Scanner scanner = new Scanner(System.in);
 	
 	
@@ -21,11 +22,29 @@ public class CartIndex {
 	}
 	
 	public CartIndex(Session session) {
-		this.session = session;
+		CartIndex.session = session;
 	}
 	
+	public void initialize() {
+			ProductBean fakeProductBean1 = new ProductBean("p000003", "EN_Speaking", "EN", 500, "nice", "fbk001", "pic01", "vid01");
+			ProductBean fakeProductBean2 = new ProductBean("p000015", "RU_Reading", "RU", 650, "awesome", "krn563", "pic02", "vid02");
+			ProductBean fakeProductBean3 = new ProductBean("p000009", "JP_Translation", "JP", 500, "subarashii", "duck486", "pic03", "vid03");
+	//		<jsp:useBean id="addedProduct" scope="session" class="cart.ProductBean" type="cart.ProductBean" />
+	
+				// 測試用。cart如果是空的，會自動補3件下列商品作為測試
+				if(cart.size() == 0) {
+					System.out.println("購物車沒有任何東西，因此管理員塞了三個課程進來✌💀✌");
+					cart = new ArrayList<ProductBean>();
+					cart.add(fakeProductBean1);
+					cart.add(fakeProductBean2);
+					cart.add(fakeProductBean3);
+				}
+				showCart();
+				return;
+		}
+
 	public static void action() {
-		CartIndex cartIndex = new CartIndex();
+		CartIndex cartIndex = new CartIndex(CartIndex.session);
 		cartIndex.initialize();
 		cartIndex.remoteControl();
 		return;
@@ -36,7 +55,8 @@ public class CartIndex {
 		System.out.println("輸入1以移除商品，2以確定結帳(把資料存進資料庫)，或其他回到主選單");
 		String cmd = scanner.nextLine();
 			if (cmd == "2" && cart.size() != 0) {
-				pay(new OrderBean());
+				pay();
+				try {wait(1500);} catch(Exception e){}
 				backToMainPage();
 				return;
 			}
@@ -73,18 +93,17 @@ public class CartIndex {
 		return;		
 	}
 
-	private void pay(OrderBean orderbean) {
-		
-		Connection conn = getConn();
-		CartDAO crudor = new CartDAO(conn);
+	private void pay() {
+		CartDAO crudor = new CartDAO(this.session);
 		// ＊生成OrderBean
 		
 		// (1) 取得O_ID：查出最新的O_ID
-		crudor.selectCustom("SELECT TOP(1) [O_ID] FROM [Order_Info] ORDER BY [O_ID] DESC;");
-		ArrayList<ArrayList<String>> dataArrays = CartDAO.dataArrays;
-		String O_IDString = dataArrays.get(0).get(0);
+			// O_ID可能是
+		Query<OrderBean> query = this.session.createQuery("FROM OrderBean ob ORDER BY ob.O_ID DESC", OrderBean.class).setMaxResults(1);
+		OrderBean uniqueResult = query.uniqueResult();
+		String O_IDString = uniqueResult.getO_ID();
 		// 剝掉非O_ID中非數字的部分取出轉成Integer
-		String pureNum = stripNonDigits(O_IDString);
+		String pureNum = HibernateUtil.stripNonDigits(O_IDString);
 		Integer latestO_ID = Integer.parseInt(pureNum);
 		// 找出當前Table裡O_ID最大數字，並+1
 		// 97~122 = a~z; 65~90 = A~Z (ASCII表)
@@ -101,8 +120,6 @@ public class CartIndex {
 		}		
 		
 		// (2) 取得U_ID，U_FirstName，U_LastName，U_Email
-		// 之後請若安把已登入會員的Bean幫我塞進session Attribute內，取出語句如下：
-		// UserBean userBean = (UserBean)this.session.getAttribute("userBean");
 		// 以下為測試用，要換掉
 		ArrayList<UserBean> fakeUserBeans = new ArrayList<UserBean>();
 		UserBean fakeUserBean00 = new UserBean("user01", "psww", "1098-12-31", "TKYM", "TMT", "L@U.L", "0987654321", "F", "this.Galaxy");
@@ -115,7 +132,10 @@ public class CartIndex {
 		String now = sdf.format(calendar.getTime());
 		
 		// (4) 取得O_Amt
-		 Integer O_Amt = (Integer) session.getAttribute("O_Amt");
+		 Integer O_Amt = 0;
+		 for (int i = 0; i < this.cart.size(); i++) {
+			O_Amt += this.cart.get(i).getP_Price();
+		}
 		
 		// 把OrderBean的資料寫進去Database
 		// 之後把下面fakeUserBeans.get(0)改成get(i)
@@ -126,45 +146,11 @@ public class CartIndex {
 			crudor.insertOrder(orderBean);
 		}
 
-		try {
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		
 		this.cart = new ArrayList<ProductBean>();
-		session.setAttribute("cart", this.cart);
-		session.removeAttribute("O_Amt");
-		
-//		req.getRequestDispatcher("/cart/cartThanks.jsp").forward(req, res);	 
-		res.sendRedirect("/AwesomeProject/cart/cartThanks.jsp");
+		System.out.println("購買成功，感謝您！");
 		return;
 	}
 
-	public void initialize() {
-		ProductBean testBean1 = new ProductBean("p000003", "EN_Speaking", "EN", 500, "nice", "fbk001", "pic01", "vid01");
-		ProductBean testBean2 = new ProductBean("p000015", "RU_Reading", "RU", 650, "awesome", "krn563", "pic02", "vid02");
-		ProductBean testBean3 = new ProductBean("p000009", "JP_Translation", "JP", 500, "subarashii", "duck486", "pic03", "vid03");
-//		<jsp:useBean id="addedProduct" scope="session" class="cart.ProductBean" type="cart.ProductBean" />
-
-			// 測試用。cart如果是空的，會自動補3件下列商品作為測試
-			if(cart.size() == 0) {
-				System.out.println("購物車沒有任何東西，因此管理員塞了三個課程進來✌💀✌");
-				cart = new ArrayList<ProductBean>();
-				cart.add(testBean1);
-				cart.add(testBean2);
-				cart.add(testBean3);
-			}
-			showCart();
-			return;
-	}
-	
 	public void showCart() {
 		System.out.println("**********************************************************************************************************************");
 		System.out.println(String.format(format1, "No.", "課程名稱(P_Name)", "課程編號(P_ID)", 

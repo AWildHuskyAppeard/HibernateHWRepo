@@ -7,7 +7,9 @@ public interface ICartDAO {
 	
 	OrderBean insertOrder(OrderBean orderBean);
 	OrderBean selectOrder(String P_ID);
+	OrderBean selectCustom(String hql);
 	List<OrderBean> selectAllOrder();
+	
 	/**
 	
 	// 回傳資料筆數；0表示沒變化、-1表示出問題、1以上表示更改比數

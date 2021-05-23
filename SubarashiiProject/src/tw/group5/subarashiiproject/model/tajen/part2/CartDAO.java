@@ -47,7 +47,14 @@ public class CartDAO implements ICartDAO {
 	public OrderBean selectOrder(String P_ID) {
 		// HQL好像不是用table名而是entity名，所以有可能是OrderBean
 		Query<OrderBean> query = session.createQuery("SELECT * FROM Order_Info WHERE p_id = :pid", OrderBean.class);
+		query.setParameter("pid", P_ID);
 		return query.uniqueResult();
+	}
+
+	@Override
+	public OrderBean selectCustom(String hql) {
+//		this.session.createQuery(hql, OrderBean.class);
+		return null;
 	}
 
 }
