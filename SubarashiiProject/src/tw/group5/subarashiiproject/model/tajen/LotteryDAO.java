@@ -5,14 +5,14 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
-public class LotteryDAO {
+public class LotteryDAO implements ILotteryDAO {
 	
 	private Session session;
 	
 	public LotteryDAO(Session session) {
 		this.session = session;
 	}
-	
+	@Override
 	public Lottery insert(Lottery newLottery) {
 //		Lottery resultBean = session.get(Lottery.class, newLottery.getId());
 //		
@@ -23,7 +23,7 @@ public class LotteryDAO {
 //			return null;
 //		}	
 	}
-	
+	@Override
 	public Lottery[] inserts(Lottery[] newLotterys) {
 		
 		for (int i = 0; i < newLotterys.length; i++) {
@@ -31,12 +31,12 @@ public class LotteryDAO {
 		}
 		return newLotterys;
 	}
-	
+	@Override
 	public List<Lottery> selectAll() {
 		Query<Lottery> query = this.session.createQuery("FROM Lottery", Lottery.class);
 		return query.list();
 	}
-	
+	@Override
 	public Lottery select(int id) {
 		return this.session.get(Lottery.class, id);
 	}
