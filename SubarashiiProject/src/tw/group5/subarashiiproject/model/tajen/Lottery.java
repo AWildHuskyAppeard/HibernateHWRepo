@@ -316,8 +316,9 @@ public class Lottery {
 		this.c42 = c42;
 	} 
 	
-	public void set(int lotteryNo) {
+	public void assign (int lotteryNo) {
 		switch (lotteryNo) {
+//			case 0  : setId(1); break;
 			case 1  : setC01(1); break;
 			case 2  : setC02(1); break;
 			case 3  : setC03(1); break;
@@ -362,5 +363,55 @@ public class Lottery {
 			case 42 : setC42(1); break;
 			default: break;
 		}
+	}
+	public int take (int lotteryNo) {
+		int value = 0;
+		switch (lotteryNo) {			
+			case 0  : value = getId(); break;
+			case 1  : value = getC01(); break;
+			case 2  : value = getC02(); break;
+			case 3  : value = getC03(); break;
+			case 4  : value = getC04(); break;
+			case 5  : value = getC05(); break;
+			case 6  : value = getC06(); break;
+			case 7  : value = getC07(); break;
+			case 8  : value = getC08(); break;
+			case 9  : value = getC09(); break;
+			case 10 : value = getC10(); break;
+			case 11 : value = getC11(); break;
+			case 12 : value = getC12(); break;
+			case 13 : value = getC13(); break;
+			case 14 : value = getC14(); break;
+			case 15 : value = getC15(); break;
+			case 16 : value = getC16(); break;
+			case 17 : value = getC17(); break;
+			case 18 : value = getC18(); break;
+			case 19 : value = getC19(); break;
+			case 20 : value = getC20(); break;
+			case 21 : value = getC21(); break;
+			case 22 : value = getC22(); break;
+			case 23 : value = getC23(); break;
+			case 24 : value = getC24(); break;
+			case 25 : value = getC25(); break;
+			case 26 : value = getC26(); break;
+			case 27 : value = getC27(); break;
+			case 28 : value = getC28(); break;
+			case 29 : value = getC29(); break;
+			case 30 : value = getC30(); break;
+			case 31 : value = getC31(); break;
+			case 32 : value = getC32(); break;
+			case 33 : value = getC33(); break;
+			case 34 : value = getC34(); break;
+			case 35 : value = getC35(); break;
+			case 36 : value = getC36(); break;
+			case 37 : value = getC37(); break;
+			case 38 : value = getC38(); break;
+			case 39 : value = getC39(); break;
+			case 40 : value = getC40(); break;
+			case 41 : value = getC41(); break;
+			case 42 : value = getC42(); break;
+			default: break;
+		}
+		return value;
 	}
 }
