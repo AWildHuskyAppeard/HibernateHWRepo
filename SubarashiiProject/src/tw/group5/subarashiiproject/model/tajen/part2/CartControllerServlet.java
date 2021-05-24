@@ -229,12 +229,12 @@ public class CartControllerServlet extends HttpServlet {
 		}
 		
 		Connection conn = getConn();
-		CartDAOImpl crudor = new CartDAOImpl(conn);
+		CartDAO crudor = new CartDAO(conn);
 		// ＊生成OrderBean
 		
 		// (1) 取得O_ID：查出最新的O_ID
 		crudor.selectCustom("SELECT TOP(1) [O_ID] FROM [Order_Info] ORDER BY [O_ID] DESC;");
-		ArrayList<ArrayList<String>> dataArrays = CartDAOImpl.dataArrays;
+		ArrayList<ArrayList<String>> dataArrays = CartDAO.dataArrays;
 		String O_IDString = dataArrays.get(0).get(0);
 		// 剝掉非O_ID中非數字的部分取出轉成Integer
 		String pureNum = stripNonDigits(O_IDString);
@@ -306,7 +306,7 @@ public class CartControllerServlet extends HttpServlet {
 	 **/
 	private void deleteByAdmin(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		Connection conn = getConn();
-		CartDAOImpl crudor = new CartDAOImpl(conn);
+		CartDAO crudor = new CartDAO(conn);
 		
 		String[] O_IDsToBeRmvd = req.getParameterValues("ckbox");
 		for(int i = 0; i < O_IDsToBeRmvd.length; i++) {
@@ -339,15 +339,15 @@ public class CartControllerServlet extends HttpServlet {
 	 **/		
 	private void updateByAdmin(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		Connection conn = getConn();
-		CartDAOImpl crudor = new CartDAOImpl(conn);
+		CartDAO crudor = new CartDAO(conn);
 //		ArrayList<OrderBean> adminBeans = (ArrayList<OrderBean>)session.getAttribute("adminBeans");
 //		for(int i = 0; i < adminBeans.size(); i++) {
 //			crudor.updateOrder(adminBeans.get(i), "O_ID", adminBeans.get(i).getO_ID());
 //		}
 		ArrayList<OrderBean> adminBeans = new ArrayList<OrderBean>();
-		for(int i =0; i < CartDAOImpl.dataArrays.size(); i++) {
+		for(int i =0; i < CartDAO.dataArrays.size(); i++) {
 			OrderBean adminBean = new OrderBean();
-			for(int j = 0; j < CartDAOImpl.columnNames.length; j++) {
+			for(int j = 0; j < CartDAO.columnNames.length; j++) {
 				adminBean.assign(j + 1, req.getParameter(String.valueOf(i)+String.valueOf(j)));
 			}
 			System.out.println(adminBean.take(1)); // debug用
@@ -380,14 +380,14 @@ public class CartControllerServlet extends HttpServlet {
 	 **/
 	private void insertByAdmin(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		Connection conn = getConn();
-		CartDAOImpl crudor = new CartDAOImpl(conn);
+		CartDAO crudor = new CartDAO(conn);
 		
 //		System.out.println("Start debugging...");
 		String counter = req.getParameter("counter");
 		Integer up = Integer.parseInt(counter);
 		for(int i =0; i < up; i++) {
 			OrderBean adminBean = new OrderBean();
-			for(int j = 0; j < CartDAOImpl.columnNames.length; j++) { // CartDAOImpl.columnNames.length = 11
+			for(int j = 0; j < CartDAO.columnNames.length; j++) { // CartDAOImpl.columnNames.length = 11
 				String pmValue = req.getParameter("new" + String.valueOf(i) + String.valueOf(j));
 				adminBean.assign(j + 1, pmValue);
 			}

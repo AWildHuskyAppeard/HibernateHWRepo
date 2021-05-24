@@ -1,10 +1,7 @@
 package tw.group5.subarashiiproject.action.tajen;
 // PDF-1 TaJen
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -53,9 +50,29 @@ public class Action {
 				Integer lotterySet = scanner.nextInt();
 				Lottery[] lotterys = playLottery(lotterySet);
 				processInsertLottery(lotterys, cSession);
+				while(true) {
+					System.out.print("Do you want to check the result? (y / n)");
+					String choice = scanner.nextLine();
+					if ("y".equals(choice) || "Y".equals(choice)) {
+						List<Lottery> result = processSelectMoreAction(lotterySet, cSession);
+						System.out.println(" 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 ");
+						for (int i = 0; i < result.size(); i++) {
+							Lottery row = result.get(i);
+							for (int j = 0; j < 42; j++) {
+								System.out.print(String.format("%2d ", row.take(j + 1)));
+							}
+							System.out.println();
+						}
+						break;
+					} else if ("n".equals(choice) || "N".equals(choice)) {
+						System.out.println("Bye :^)");
+						break;
+					} else {
+						System.out.println("??? Please enter correctly");
+					}
+					
+				}
 
-				
-				
 			/**************************************************/
 			cSession.getTransaction().commit();
 		} catch (Exception e) {
@@ -92,7 +109,11 @@ public class Action {
 		return;
 	}
 		
-	
+	private static List<Lottery> processSelectMoreAction(int setNum, Session session) {
+		LotteryService lotteryService = new LotteryService(session);
+		List<Lottery> selectedRows = lotteryService.selectMore(setNum);
+		return selectedRows;
+	}
 
 	private static Lottery[] playLottery(int set) {
 		
@@ -119,7 +140,7 @@ public class Action {
 					}
 				}
 				topSix[i] = maxIndex;
-				lotterys[k].set(maxIndex  + 1);
+				lotterys[k].assign(maxIndex  + 1);
 				counter[maxIndex] = -1;
 			}
 			

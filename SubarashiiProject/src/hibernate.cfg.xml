@@ -18,14 +18,16 @@
         <property name="hibernate.format_sql">true</property>
         
         		<!-- PDF題目相關註冊 -->
-        <mapping class="tw.group5.subarashiiproject.model.tajen.Users"/>
         <mapping class="tw.group5.subarashiiproject.model.josh.Users1"/>
         <mapping class="tw.group5.subarashiiproject.model.josh.Lottery1"/>
+        <mapping class="tw.group5.subarashiiproject.model.tajen.Users"/> 
         <mapping class="tw.group5.subarashiiproject.model.tajen.Lottery"/>
-
-        <!-- ****************************************************** -->
+        <mapping class="tw.group5.subarashiiproject.model.yen.Lottery"/>
         <mapping class="tw.group5.subarashiiproject.model.ken.UserBean_ken"/>
         <mapping class="tw.group5.subarashiiproject.model.ken.Lottery_Bean_ken"/>
+
+        <!-- ****************************************************** -->
+
         
     </session-factory>
 </hibernate-configuration>

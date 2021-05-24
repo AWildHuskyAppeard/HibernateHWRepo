@@ -11,26 +11,26 @@
 		private Connection conn = null;
 		private ArrayList<ArrayList<String>> dataArrays = null;%>    
 <%
-		try 
-		{
-			if (this.ds == null) 
-			{	
-				ctx = new InitialContext();
-				// 改資料庫名稱
-				this.ds = (DataSource) ctx.lookup("java:/comp/env/jdbc/DBDB");
-			}
-			this.conn = this.ds.getConnection();
-		} catch (NamingException e) 
-		{
-			e.printStackTrace();
-		} catch (SQLException e) 
-		{
-			e.printStackTrace();
-		} 
-		CartDAOImpl dao = new CartDAOImpl(conn);
-		dao.selectAllOrder();
-		dataArrays = CartDAOImpl.dataArrays;
-%>
+    	try 
+    		{
+    	if (this.ds == null) 
+    	{	
+    		ctx = new InitialContext();
+    		// 改資料庫名稱
+    		this.ds = (DataSource) ctx.lookup("java:/comp/env/jdbc/DBDB");
+    	}
+    	this.conn = this.ds.getConnection();
+    		} catch (NamingException e) 
+    		{
+    	e.printStackTrace();
+    		} catch (SQLException e) 
+    		{
+    	e.printStackTrace();
+    		} 
+    		CartDAO dao = new CartDAO(conn);
+    		dao.selectAllOrder();
+    		dataArrays = CartDAO.dataArrays;
+    %>
 <!DOCTYPE html>
 <%
 		request.setCharacterEncoding("UTF-8");
