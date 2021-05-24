@@ -25,6 +25,7 @@
 
         <!-- ****************************************************** -->
         <mapping class="tw.group5.subarashiiproject.model.ken.UserBean_ken"/>
+        <mapping class="tw.group5.subarashiiproject.model.ken.Lottery_Bean_ken"/>
         
     </session-factory>
 </hibernate-configuration>
