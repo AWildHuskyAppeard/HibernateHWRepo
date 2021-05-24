@@ -50,7 +50,7 @@ public class CartIndex {
 		return;
 	}
 	
-	public void remoteControl() {
+	private void remoteControl() {
 		while(true) {
 		System.out.println("輸入1以移除商品，2以確定結帳(把資料存進資料庫)，或其他回到主選單");
 		String cmd = scanner.nextLine();
@@ -90,7 +90,7 @@ public class CartIndex {
 	}
 
 	private void backToMainPage() {
-		return;		
+		return;
 	}
 
 	private void pay() {

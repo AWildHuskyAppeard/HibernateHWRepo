@@ -32,8 +32,8 @@ public class LotteryDAO implements ILotteryDAO {
 		return newLotterys;
 	}
 	@Override
-	public List<Lottery> selectAll() {
-		Query<Lottery> query = this.session.createQuery("FROM Lottery", Lottery.class);
+	public List<Lottery> selectMore(int rowNum) {
+		Query<Lottery> query = this.session.createQuery("FROM Lottery ln ORDER BY ln.id DESC", Lottery.class).setMaxResults(rowNum);
 		return query.list();
 	}
 	@Override

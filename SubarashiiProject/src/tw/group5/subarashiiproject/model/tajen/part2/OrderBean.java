@@ -1,17 +1,38 @@
 package tw.group5.subarashiiproject.model.tajen.part2;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 // Cart = ArrayList<ProductBean> = ArrayList<CartItem>
 // OrderBean = cart +- 一些額外資訊
+@Entity
+@Table(name = "Order_Info")
 public class OrderBean {
+	@Id @Column(name = "O_ID")
 	private String O_ID ; // PK
+	@Column(name = "P_ID")
 	private String P_ID; // FK
+	@Column(name = "P_NAME")
 	private String P_Name; // FK
+	@Column(name = "P_PRICE")
 	private Integer P_Price; // FK
+	@Column(name = "U_ID")
 	private String U_ID; // FK
+	@Column(name = "U_FIRSTNAME")
 	private String U_FirstName; // FK
+	@Column(name = "U_LASTNAME")
 	private String U_LastName; // FK
+	@Column(name = "U_EMAIL")
 	private String U_Email; // FK
+	@Column(name = "O_STATUS")
 	private String O_Status;
+	@Column(name = "O_DATE")
 	private String O_Date; // Date()會不會更好？
+	@Column(name = "O_AMT")
 	private Integer O_Amt;
 	
 	// constructors

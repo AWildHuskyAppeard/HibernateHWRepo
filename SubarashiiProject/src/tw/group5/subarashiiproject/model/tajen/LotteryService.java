@@ -20,8 +20,8 @@ public class LotteryService implements ILotteryService {
 		return this.lotteryDAO.inserts(newLotterys);
 	}
 	@Override
-	public List<Lottery> selectAll() {
-		return this.lotteryDAO.selectAll();
+	public List<Lottery> selectMore(int setNum) {
+		return this.lotteryDAO.selectMore(setNum);
 	}
 	@Override
 	public Lottery select(int id) {

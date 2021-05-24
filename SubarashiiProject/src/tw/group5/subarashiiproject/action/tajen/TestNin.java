@@ -9,17 +9,9 @@ import tw.group5.subarashiiproject.util.HibernateUtil;
 public class TestNin {
 
 	public static void main(String[] args) {
-		SessionFactory factory = HibernateUtil.getSessionFactory();
-		Session cSession = factory.getCurrentSession();
-
-		cSession.beginTransaction();
-		
-		cSession.createQuery("");
-		
-		cSession.getTransaction().commit();
-		
-		
-		HibernateUtil.closeSessionFactory();
+		for (int i = 0; i < 43; i++) {
+			System.out.print( i + " ");
+		}
 	}
 
 }
